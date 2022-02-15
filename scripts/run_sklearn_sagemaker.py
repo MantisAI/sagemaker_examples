@@ -1,13 +1,15 @@
+import os
+
 from sagemaker.sklearn import SKLearn
 import sagemaker
 import typer
 
 
-def run_sklearn_sagemaker(data_path, instance_type, role, min_df:int=5, max_ngram:int=1, stopwords="english", loss="hinge", learning_rate:float=1e-4):
+def run_sklearn_sagemaker(data_path, instance_type="local", role=os.environ.get("AWS_SAGEMAKER_ROLE"), min_df:int=5, max_ngram:int=1, stopwords="english", loss="hinge", learning_rate:float=1e-4):
     hyperparameters = {
         "min_df": min_df,
         "max_ngram": max_ngram,
-        "stopwords": english,
+        "stopwords": stopwords,
         "loss": loss,
         "learning_rate": learning_rate
     }
