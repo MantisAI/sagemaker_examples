@@ -1,3 +1,6 @@
 # Venv, direnv
 venv
 .envrc
+
+# models
+models/
