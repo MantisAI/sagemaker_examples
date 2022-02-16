@@ -53,7 +53,7 @@ if __name__ == "__main__":
     argparser.add_argument("--learning_rate", type=float, default=2e-5)
     argparser.add_argument("--batch_size", type=int, default=16)
     argparser.add_argument("--epochs", type=int, default=5)
-    argparser.add_argument("--weight-decay", type=float, default=0.01)
+    argparser.add_argument("--weight_decay", type=float, default=0.01)
     args = argparser.parse_args()
 
     train_transformers(
