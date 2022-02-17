@@ -17,7 +17,7 @@ def run_pytorch_sagemaker(data_path, role=os.environ.get("AWS_SAGEMAKER_ROLE"), 
     }
     
     pt = PyTorch(
-        entry_point="train_pytorch.py",
+        entry_point="src/train_pytorch.py",
         framework_version="1.9",
         py_version="py38",
         instance_type=instance_type,

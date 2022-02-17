@@ -14,13 +14,13 @@ def run_transformers_sagemaker(data_path, role=os.environ.get("AWS_SAGEMAKER_ROL
         "weight_decay": weight_decay
     }
     hf = HuggingFace(
-        entry_point="train_transformers.py",
+        entry_point="src/train_transformers.py",
         instance_type=instance_type,
         instance_count=1,
         role=role,
         transformers_version="4.12",
         pytorch_version="1.9",
-        py_version="py38",
+        py_version="py3",
         hyperparameters=hyperparameters
         
     )

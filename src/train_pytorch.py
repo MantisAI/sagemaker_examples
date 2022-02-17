@@ -95,6 +95,7 @@ if __name__ == "__main__":
     argparser.add_argument("--learning_rate", type=float, default=1e-3)
     argparser.add_argument("--vocab_size", type=int, default=1000)
     argparser.add_argument("--seq_len", type=int, default=100)
+    argparser.add_argument("--emb_size", type=int, default=100)
     argparser.add_argument("--hidden_size", type=int, default=200)
     argparser.add_argument("--num_layers", type=int, default=2)
     args = argparser.parse_args()
@@ -107,6 +108,7 @@ if __name__ == "__main__":
         args.learning_rate,
         args.vocab_size,
         args.seq_len,
+        args.emb_size,
         args.hidden_size,
         args.num_layers
     )

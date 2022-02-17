@@ -1,7 +1,6 @@
 import os
 
 from sagemaker.sklearn import SKLearn
-import sagemaker
 import typer
 
 
@@ -14,17 +13,13 @@ def run_sklearn_sagemaker(data_path, instance_type="local", role=os.environ.get(
         "learning_rate": learning_rate
     }
     sk = SKLearn(
-        entry_point="train_sklearn.py",
+        entry_point="src/train_sklearn.py",
         framework_version="0.20.0",
         instance_type=instance_type,
         instance_count=1,
         role=role,
         hyperparameters=hyperparameters
     )
-    if instance_type == "local":
-        data_path = f"file://{data_path}"
-    else:
-        assert "s3://" in data_path 
     sk.fit({"train": data_path})
 
 if __name__ == "__main__":
