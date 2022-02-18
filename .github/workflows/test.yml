@@ -1,5 +1,5 @@
 name: Run tests
-on: [pull_request, push]
+on: pull_request
 jobs:
   Run-tests:
     runs-on: ubuntu-latest
@@ -14,5 +14,5 @@ jobs:
           pip install -r sklearn_requirements.txt
           pip install -r pytorch_requirements.txt
           pip install -r transformers_requirements.txt
-     - name: Run  tests
-       run: pytest
+      - name: Run  tests
+        run: pytest
