@@ -35,11 +35,12 @@ def run_transformers_sagemaker(
         hyperparameters=hyperparameters,
         output_path=model_path,
     )
-    job_name = (
-        f"{job_name_prefix}-{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
-    )
+
+    now = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    job_name = f"{job_name_prefix}-{now}"
     print(f"Job name: {job_name}")
-    hf.fit({"train": data_path})
+
+    hf.fit({"train": data_path}, job_name=job_name)
 
 
 if __name__ == "__main__":
