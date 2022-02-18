@@ -41,8 +41,6 @@ def train_transformers(data_path, pretrained_model="bert-base-uncased", learning
         model = model,
         args = training_args,
         train_dataset = train_dataset,
-        #eval_dataset = eval_dataset,
-#        tokenizer = tokenizer,
     )
     trainer.train()
 

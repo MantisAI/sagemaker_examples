@@ -4,3 +4,6 @@ venv
 
 # models
 models/
+
+# python
+**/__pycache__

@@ -83,7 +83,7 @@ def train_pytorch(data_path, model_path, batch_size:int=16, epochs:int=5, learni
             optimizer.step()
 
     torch.save(model, os.path.join(model_path, "model.pt"))
-    with open(os.path.join(model_path, "tokenizer.pkl")) as f:
+    with open(os.path.join(model_path, "tokenizer.pkl"), "wb") as f:
         f.write(pickle.dumps(tokenizer))
 
 if __name__ == "__main__":
