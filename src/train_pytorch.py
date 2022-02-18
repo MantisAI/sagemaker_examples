@@ -17,14 +17,15 @@ def load_data(data_path):
     X, y = zip(*data)
     return X, y
 
-class Tokenizer():
+
+class Tokenizer:
     def __init__(self, vocab_size, seq_len):
         self.vocab_size = vocab_size
         self.seq_len = seq_len
 
     def fit(self, X):
         tokens = [token for x in tqdm(X) for token in x.split()]
-        vocab = [token for token, _ in Counter(tokens).most_common()[:self.vocab_size]]
+        vocab = [token for token, _ in Counter(tokens).most_common()[: self.vocab_size]]
         self.word2id = {token: idx for idx, token in enumerate(vocab)}
 
     def transform(self, X):
@@ -33,25 +34,40 @@ class Tokenizer():
             for j, token in enumerate(x.split()):
                 if j >= self.seq_len:
                     break
-                X_vec[i,j] = self.word2id.get(token, 0)
+                X_vec[i, j] = self.word2id.get(token, 0)
         return X_vec
+
 
 class Model(torch.nn.Module):
     def __init__(self, vocab_size, seq_len, emb_size, hidden_size, num_layers):
         super().__init__()
         self.embedding = torch.nn.Embedding(vocab_size, emb_size)
-        self.bilstm = torch.nn.LSTM(emb_size, hidden_size, num_layers, bidirectional=True, batch_first=True)
-        self.linear = torch.nn.Linear(hidden_size*2, 1)
+        self.bilstm = torch.nn.LSTM(
+            emb_size, hidden_size, num_layers, bidirectional=True, batch_first=True
+        )
+        self.linear = torch.nn.Linear(hidden_size * 2, 1)
 
     def forward(self, x):
         x = self.embedding(x)
         x, _ = self.bilstm(x)
-        x = torch.squeeze(x[:,-1,:])
+        x = torch.squeeze(x[:, -1, :])
         x = self.linear(x)
         x = torch.sigmoid(x)
         return torch.squeeze(x)
 
-def train_pytorch(data_path, model_path, batch_size:int=16, epochs:int=5, learning_rate:float=1e-3, vocab_size:int=1000, seq_len:int=100, emb_size:int=100, hidden_size:int=200, num_layers:int=2):
+
+def train_pytorch(
+    data_path,
+    model_path,
+    batch_size: int = 16,
+    epochs: int = 5,
+    learning_rate: float = 1e-3,
+    vocab_size: int = 1000,
+    seq_len: int = 100,
+    emb_size: int = 100,
+    hidden_size: int = 200,
+    num_layers: int = 2,
+):
     X, y = load_data(os.path.join(data_path, "movie.csv"))
 
     tokenizer = Tokenizer(vocab_size, seq_len)
@@ -86,6 +102,7 @@ def train_pytorch(data_path, model_path, batch_size:int=16, epochs:int=5, learni
     with open(os.path.join(model_path, "tokenizer.pkl"), "wb") as f:
         f.write(pickle.dumps(tokenizer))
 
+
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--data_path", default=os.environ.get("SM_CHANNEL_TRAIN"))
@@ -110,5 +127,5 @@ if __name__ == "__main__":
         args.seq_len,
         args.emb_size,
         args.hidden_size,
-        args.num_layers
+        args.num_layers,
     )

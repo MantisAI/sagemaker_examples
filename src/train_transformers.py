@@ -2,7 +2,13 @@ import argparse
 import csv
 import os
 
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, TrainingArguments, Trainer, DataCollator
+from transformers import (
+    AutoModelForSequenceClassification,
+    AutoTokenizer,
+    TrainingArguments,
+    Trainer,
+    DataCollator,
+)
 import torch
 
 
@@ -16,13 +22,23 @@ def load_data(data_path):
     X, y = zip(*data)
     return X, y
 
+
 def transform_data(data, tokenizer):
     X, y = zip(*data)
     input_ids = tokenizer(list(X), truncation=True, padding=True)["input_ids"]
     for i in range(len(input_ids)):
         yield {"input_ids": input_ids[i], "label": int(y[i])}
 
-def train_transformers(data_path, model_path, pretrained_model="bert-base-uncased", learning_rate:float=2e-5, batch_size:int=16, epochs:int=5, weight_decay:float=0.01):
+
+def train_transformers(
+    data_path,
+    model_path,
+    pretrained_model="bert-base-uncased",
+    learning_rate: float = 2e-5,
+    batch_size: int = 16,
+    epochs: int = 5,
+    weight_decay: float = 0.01,
+):
     model = AutoModelForSequenceClassification.from_pretrained(pretrained_model)
     tokenizer = AutoTokenizer.from_pretrained(pretrained_model)
 
@@ -36,16 +52,17 @@ def train_transformers(data_path, model_path, pretrained_model="bert-base-uncase
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
         num_train_epochs=epochs,
-        weight_decay=weight_decay
+        weight_decay=weight_decay,
     )
     trainer = Trainer(
-        model = model,
-        args = training_args,
-        train_dataset = train_dataset,
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
     )
     trainer.train()
 
     model.save_pretrained(model_path)
+
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
@@ -65,4 +82,5 @@ if __name__ == "__main__":
         args.learning_rate,
         args.batch_size,
         args.epochs,
-        args.weight_decay)
+        args.weight_decay,
+    )
