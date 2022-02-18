@@ -1,4 +1,14 @@
+# General
 sagemaker==2.75.1
 typer==0.4.0
-pyyaml==6.0
 tqdm==4.62.3
+black==22.1
+# Sklearn
+scikit-learn==1.0
+# Pytorch
+torch==1.9
+# Transformers
+transformers==4.12
+torch==1.9
+# Tests
+pytest==7.0.1

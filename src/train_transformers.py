@@ -12,6 +12,7 @@ def load_data(data_path):
         csvreader = csv.DictReader(f)
         for row in csvreader:
             data.append((row["text"], row["label"]))
+    data = data[:10]
     X, y = zip(*data)
     return X, y
 
@@ -21,7 +22,7 @@ def transform_data(data, tokenizer):
     for i in range(len(input_ids)):
         yield {"input_ids": input_ids[i], "label": int(y[i])}
 
-def train_transformers(data_path, pretrained_model="bert-base-uncased", learning_rate:float=2e-5, batch_size:int=16, epochs:int=5, weight_decay:float=0.01):
+def train_transformers(data_path, model_path, pretrained_model="bert-base-uncased", learning_rate:float=2e-5, batch_size:int=16, epochs:int=5, weight_decay:float=0.01):
     model = AutoModelForSequenceClassification.from_pretrained(pretrained_model)
     tokenizer = AutoTokenizer.from_pretrained(pretrained_model)
 
@@ -41,14 +42,15 @@ def train_transformers(data_path, pretrained_model="bert-base-uncased", learning
         model = model,
         args = training_args,
         train_dataset = train_dataset,
-        #eval_dataset = eval_dataset,
-#        tokenizer = tokenizer,
     )
     trainer.train()
+
+    model.save_pretrained(model_path)
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--data_path", default=os.environ.get("SM_CHANNEL_TRAIN"))
+    argparser.add_argument("--model_path", default=os.environ.get("SM_MODEL_DIR"))
     argparser.add_argument("--pretrained_model", default="bert-base-uncased")
     argparser.add_argument("--learning_rate", type=float, default=2e-5)
     argparser.add_argument("--batch_size", type=int, default=16)
@@ -58,6 +60,7 @@ if __name__ == "__main__":
 
     train_transformers(
         args.data_path,
+        args.model_path,
         args.pretrained_model,
         args.learning_rate,
         args.batch_size,

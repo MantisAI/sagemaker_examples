@@ -1,10 +1,11 @@
+import datetime
 import os
 
 from sagemaker.huggingface import HuggingFace
 import typer
 
 
-def run_transformers_sagemaker(data_path, role=os.environ.get("AWS_SAGEMAKER_ROLE"), instance_type="local", 
+def run_transformers_sagemaker(data_path, model_path, job_name_prefix="transformers", role=os.environ.get("AWS_SAGEMAKER_ROLE"), instance_type="local", 
         pretrained_model="bert-base-uncased", learning_rate:float=2e-5, batch_size:int=16, epochs:int=5, weight_decay:float=0.01):
     hyperparameters = {
         "pretrained_model": pretrained_model,
@@ -21,9 +22,11 @@ def run_transformers_sagemaker(data_path, role=os.environ.get("AWS_SAGEMAKER_ROL
         transformers_version="4.12",
         pytorch_version="1.9",
         py_version="py3",
-        hyperparameters=hyperparameters
-        
+        hyperparameters=hyperparameters,
+        output_path=model_path
     )
+    job_name = f"{job_name_prefix}-{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
+    print(f"Job name: {job_name}")
     hf.fit({"train": data_path})
 
 if __name__ == "__main__":
