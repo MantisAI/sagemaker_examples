@@ -14,7 +14,7 @@ def run_sklearn_naive_bayes_sagemaker(
     min_df: int = 5,
     max_ngram: int = 1,
     stopwords="english",
-    alpha:float=1,
+    alpha: float = 1,
     fit_prior: bool = True,
 ):
     hyperparameters = {

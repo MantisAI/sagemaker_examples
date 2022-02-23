@@ -19,7 +19,7 @@ def train(
     max_ngrams: int = 1,
     stopwords="english",
     alpha=1,
-    fit_prior=True
+    fit_prior=True,
 ):
     X, y = load_data(os.path.join(data_path, "movie.csv"))
 
