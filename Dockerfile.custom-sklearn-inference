@@ -1,0 +1,14 @@
+FROM python:3.8.6-slim-buster
+
+RUN pip install --upgrade pip
+RUN pip install scikit-learn==1.0.0 fastapi==0.74.1 uvicorn[standard]==0.17.5
+
+COPY src/ /opt/ml/code/
+ENV PYTHONPATH=$PYTHONPATH:/opt/ml/code
+
+COPY src/sklearn_api.py /usr/bin/serve
+RUN chmod 755 /usr/bin/serve
+
+ENV SM_MODEL_DIR=/opt/ml/model
+
+EXPOSE 8080
