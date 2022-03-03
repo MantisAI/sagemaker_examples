@@ -1,0 +1,11 @@
+FROM python:3.8.6-slim-buster
+
+RUN pip install --upgrade pip
+
+RUN pip install scikit-learn==1.0 pydantic==1.9.0
+
+COPY src/ /opt/ml/code/
+ENV PYTHONPATH=$PYTHONPATH:/opt/ml/code
+
+COPY src/sklearn_entrypoint.py /usr/bin/train
+RUN chmod 755 /usr/bin/train
