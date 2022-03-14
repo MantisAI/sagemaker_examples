@@ -1,0 +1,5 @@
+FROM python:3.8.6-slim-buster
+
+RUN pip install --upgrade pip
+RUN pip install scikit-learn==1.0.0
+RUN pip install sagemaker-training
