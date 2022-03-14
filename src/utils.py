@@ -6,6 +6,6 @@ def load_data(data_path):
     with open(data_path, encoding="utf-8-sig") as f:
         csvreader = csv.DictReader(f)
         for row in csvreader:
-            data.append((row["text"], row["label"]))
+            data.append((row["text"], float(row["label"])))
     X, y = zip(*data)
-    return X, y
+    return list(X), list(y)
