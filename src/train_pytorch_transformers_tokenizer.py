@@ -43,7 +43,11 @@ def train_pytorch(
     X, y = load_data(os.path.join(data_path, "movie.csv"))
 
     tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-    X_vec = torch.tensor(tokenizer(list(X), padding=True, truncation=True, max_length=seq_len)["input_ids"])
+    X_vec = torch.tensor(
+        tokenizer(list(X), padding=True, truncation=True, max_length=seq_len)[
+            "input_ids"
+        ]
+    )
     y = torch.tensor(y)
 
     vocab_size = X_vec.max() + 1
@@ -96,7 +100,7 @@ if __name__ == "__main__":
         args.batch_size,
         args.epochs,
         args.learning_rate,
-        args.seq_len,    
+        args.seq_len,
         args.emb_size,
         args.hidden_size,
         args.num_layers,
