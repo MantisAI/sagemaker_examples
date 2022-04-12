@@ -1,0 +1,12 @@
+name: Run black check
+on: push
+jobs:
+  Run-black-check:
+    runs-on: ["ubuntu-latest"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: Install black
+        run: pip install black
+      - name: Run black check
+        run: black --check .
