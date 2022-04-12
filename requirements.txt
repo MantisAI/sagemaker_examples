@@ -1,7 +1,7 @@
 # General
 sagemaker==2.75.1
 tqdm==4.62.3
-black==22.1
+black==22.3.0
 # Sklearn
 scikit-learn==1.0
 # Pytorch
