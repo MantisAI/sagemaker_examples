@@ -7,8 +7,10 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+
 class Data(BaseModel):
     text: str
+
 
 @app.post("/invocations")
 def predict(data: Data):
@@ -18,11 +20,13 @@ def predict(data: Data):
     y = model.predict([data.text])
     return y.tolist()
 
+
 @app.get("/ping")
 def health():
     return "\n"
 
+
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("sklearn_api:app", host="0.0.0.0", port=8080, log_level="info")    
+    uvicorn.run("sklearn_api:app", host="0.0.0.0", port=8080, log_level="info")
