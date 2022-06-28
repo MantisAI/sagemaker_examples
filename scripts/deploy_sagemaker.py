@@ -14,7 +14,10 @@ def deploy(
     model = Model(
         model_data=model_path, entry_point=entry_point, image_uri=image_uri, role=role
     )
-    model.deploy(instance_type=instance_type, initial_instance_count=instance_count)
+    predictor = model.deploy(
+        instance_type=instance_type, initial_instance_count=instance_count
+    )
+    print(predictor.endpoint_name)
 
 
 if __name__ == "__main__":
