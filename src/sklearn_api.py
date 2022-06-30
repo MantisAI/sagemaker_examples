@@ -24,7 +24,7 @@ def predict(data: Data):
 
 @app.get("/ping")
 def health():
-    return Response(content="\n", media_type="text/html")
+    return "\n"
 
 
 if __name__ == "__main__":
