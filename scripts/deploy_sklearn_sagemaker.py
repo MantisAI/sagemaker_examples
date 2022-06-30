@@ -22,10 +22,9 @@ def deploy_sklearn(
         framework_version="0.20.0",
         role=role
     )
-    predictor = sklearn.deploy(
+    sklearn.deploy(
         initial_instance_count=instance_count, instance_type=instance_type, endpoint_name=endpoint_name
     )
-    print(predictor.endpoint_name)
 
 
 if __name__ == "__main__":
