@@ -20,10 +20,12 @@ def deploy_sklearn(
         model_data=model_path,
         entry_point="src/predict_sklearn.py",
         framework_version="0.20.0",
-        role=role
+        role=role,
     )
     sklearn.deploy(
-        initial_instance_count=instance_count, instance_type=instance_type, endpoint_name=endpoint_name
+        initial_instance_count=instance_count,
+        instance_type=instance_type,
+        endpoint_name=endpoint_name,
     )
 
 
