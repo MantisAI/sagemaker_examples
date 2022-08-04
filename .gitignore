@@ -1,6 +1,9 @@
-# Venv, direnv
+# Venv, direnv, pyenv
 venv
+.env
 .envrc
+.python-version
+env.sh
 
 # models
 models/
